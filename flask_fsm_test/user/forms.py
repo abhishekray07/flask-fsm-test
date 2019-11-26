@@ -43,3 +43,26 @@ class RegisterForm(FlaskForm):
             self.email.errors.append("Email already registered")
             return False
         return True
+
+
+class Step1Form(FlaskForm):
+    """Register form."""
+
+    text = StringField(
+        "text", validators=[DataRequired()]
+    )
+
+
+class Step2Form(FlaskForm):
+    """Register form."""
+
+    text = StringField(
+        "text", validators=[DataRequired()]
+    )
+    
+class Step3Form(FlaskForm):
+    """Register form."""
+
+    text = StringField(
+        "text", validators=[DataRequired()]
+    )

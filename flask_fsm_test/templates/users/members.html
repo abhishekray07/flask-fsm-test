@@ -6,7 +6,6 @@
         <h3>This is the members-only page.</h3>
         <p>Current State: {{ current_user.status }} </p>
 
-        <p> {{ current_user.button_renders() }}</p>
         <a href="{{ url_for("user.next") }}">Go to next state</a>
         <a href="{{ url_for("user.prev") }}">Go to prev state</a>
     </div>
