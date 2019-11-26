@@ -25,13 +25,19 @@ class SignupStates(Enum):
     STEP_2 = auto()
     STEP_3 = auto()
     COMPLETE = auto()
-    
+
+
+UI_RENDER = {
+    SignupStates.STEP_1: ["Next"],
+    SignupStates.STEP_2: ["Next", "Prev"],
+    SignupStates.STEP_3: ["Next", "Prev"],
+    SignupStates.COMPLETE: [],
+}
 
 SIGNUP_TRANSITIONS = [
     ["next", SignupStates.STEP_1, SignupStates.STEP_2],
     ["next", SignupStates.STEP_2, SignupStates.STEP_3],
     ["next", SignupStates.STEP_3, SignupStates.COMPLETE],
-    ["prev", SignupStates.COMPLETE, SignupStates.STEP_3],
     ["prev", SignupStates.STEP_3, SignupStates.STEP_2],
     ["prev", SignupStates.STEP_2, SignupStates.STEP_1],
 ]
@@ -125,6 +131,8 @@ class User(UserMixin, SurrogatePK, Model):
         except MachineError:
             return False
         
+    def button_renders(self):
+        return UI_RENDER[self.state]
 
     def __repr__(self):
         """Represent instance as a unique string."""
