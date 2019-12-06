@@ -7,26 +7,25 @@ x-build-args: &build_args
 x-default-volumes: &default_volumes
   volumes:
     - ./:/app
-    - node-modules:/app/node_modules
-    - ./dev.db:/tmp/dev.db
 
 services:
   flask-dev:
     build:
       context: .
-      target: development
+      target: server
       args:
         <<: *build_args
     image: "flask_fsm_test-development"
+    depends_on:
+      - db
     ports:
       - "5000:5000"
-      - "2992:2992"
     <<: *default_volumes
 
   flask-prod:
     build:
       context: .
-      target: production
+      target: server
       args:
         <<: *build_args
     image: "flask_fsm_test-production"
@@ -49,9 +48,19 @@ services:
     image: "flask_fsm_test-manage"
     stdin_open: true
     tty: true
+    depends_on:
+      - db
     <<: *default_volumes
+  
+  db:
+    image: postgres:11.6-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=docker
 
 volumes:
-  node-modules:
+  postgres_data:
   static-build:
-  dev-db:

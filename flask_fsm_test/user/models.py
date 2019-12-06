@@ -53,6 +53,23 @@ class Role(SurrogatePK, Model):
         return f"<Role({self.name})>"
 
 
+class Cred(SurrogatePK, Model):
+    """Provide Cred for a user."""
+    
+    __tablename__ = "creds"
+    name = Column(db.String(80), unique=True, nullable=False)
+    user_id = reference_col("users", nullable=True)
+    user = relationship("User", backref="creds")
+    
+    def __init__(self, name, **kwargs):
+        """Create instance."""
+        db.Model.__init__(self, name=name, **kwargs)
+
+    def __repr__(self):
+        """Represent instance as a unique string."""
+        return f"<Cred({self.name})>"
+
+
 class User(UserMixin, SurrogatePK, Model):
     """A user of the app."""
 

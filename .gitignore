@@ -58,3 +58,5 @@ env/
 *.db
 
 .vscode/
+
+postgres-data/
